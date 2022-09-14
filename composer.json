@@ -1,0 +1,15 @@
+{
+    "name": "administrador/sistemas",
+    "description": "Sistemas Autorizaciones",
+    "type": "project",
+    "require": {
+        "geekcom/phpjasper": "^3.2.0",
+        "phpmailer/phpmailer": "^6.1",
+        "smarty/smarty": "^3.1",
+        "phpoffice/phpspreadsheet": "^1.18"
+    },
+    "authors": [{
+        "name": "Emiliano",
+        "email": "emilianofraile9@gmail.com"
+    }]
+}

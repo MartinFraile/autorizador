@@ -1,0 +1,31 @@
+php_value upload_max_filesize 6M
+php_value post_max_size 6M
+php_value max_execution_time 300
+php_value max_input_time 1000
+
+ <ifModule mod_headers.c>
+    Header set Access-Control-Allow-Origin "*"
+    #SetEnvIf Origin "http(s)?://(localhost:64151|127.0.0.1)$" AccessControlAllowOrigin=$0
+    #Header add Access-Control-Allow-Origin %{AccessControlAllowOrigin}e env=AccessControlAllowOrigin
+    Header always set Access-Control-Allow-Methods: "GET,POST,OPTIONS,DELETE,PUT"
+ </ifModule>  
+
+RewriteEngine On
+#RewriteCond %{REQUEST_FILENAME} !-f
+#RewriteRule ^api(.*)$ %{ENV:BASE}index.php [QSA,L]
+#RewriteRule   ^dashboard/(.+)$   modulos/dashboard/$1   [L]
+
+RewriteRule   ^ambulatorias/(.+)$   /modulos/ambulatorias/$1   [L]
+RewriteRule   ^internaciones/(.+)$   /modulos/internaciones/$1   [L]
+RewriteRule   ^herramientas/(.+)$   /modulos/herramientas/$1   [L]
+
+RewriteRule   ^dashboard   /modulos/dashboard/get_dashboard.php   [L]
+RewriteRule   ^inicio   /modulos/dashboard/get_home.php?menu=home  [L]
+RewriteRule   ^ambulatorias   /modulos/dashboard/get_home.php?menu=ambulatorias   [L]
+RewriteRule   ^internaciones   /modulos/dashboard/get_home.php?menu=internaciones   [L]
+RewriteRule   ^herramientas   /modulos/dashboard/get_home.php?menu=herramientas   [L]
+
+RewriteRule ^$  http://autorizador:88/login/index.php [L,R=301]
+
+
+Redirect /index.html /RAS/index.php
