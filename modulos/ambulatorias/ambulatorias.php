@@ -4,14 +4,12 @@ session_start();
 require_once "../../config.php";
 
 include '../../vendor/autoload.php';
-require_once CLASES_LOCAL . "/basededatos.php";
 require_once CLASES_LOCAL . "/funciones.php";
 require_once CLASES_LOCAL . "/DB.php";
 require_once CLASES_LOCAL . "/setup_smarty.php";
 use JasperPHP\JasperPHP;
-use MercadoPago\TrackValues;
 
-class ambodont
+class ambulatorias
 {
     private $homedir;
     // propiedades de la clase
@@ -32,7 +30,7 @@ class ambodont
         $this->tabla         = 'whal.olbenef';
         $this->campo_codigo  = "nro_documento";
         $this->codigo        = leerentrada($this->campo_codigo);
-        $this->ruta          = "modulos/ambodont";
+        $this->ruta          = "modulos/ambulatorias";
         $this->cantregistros = 15;
 
         $this->campos_lst = array(
@@ -187,9 +185,10 @@ class ambodont
     {
         $estado = $entrada['estado'];
 
-
-        $this->smarty->assign('titulo', 'Listado');
-        $this->smarty->assign('obrasoc', fnccomboDB("whal.ol_obsocconodon", "cod_obsocconec", "desc_obsoc", "cod_obsocconec",array("nro_documento" =>  $_SESSION['nro_documento'])));
+        $where = 'not exists ( select * from  TOpObSocNO where operadores_ID = '.$_SESSION['operadores_id'].' AND CodObSoc = qs.codigo)';
+        $this->smarty->assign('titulo', 'Listado');        
+        $this->smarty->assign('obrasoc', fnccomboDB("qryOSConecaut", "codigo", "descripcion", "codigo",$where));
+        
         $this->smarty->assign('ruta', $this->ruta);
         $this->smarty->assign('estado', $estado);
         $this->smarty->display('form_list_estado.tpl');
@@ -198,15 +197,12 @@ class ambodont
 
     public function modificar($entrada)
     {
-
+        
         if (isset($entrada['param'])) {
             $entrada = base64_decode($entrada['param']);
             parse_str($entrada, $entrada);
         };
-        $error                 = DB::Connect();
-        if ($error) {
-            die('Error en conexión');
-        }
+ 
        
         if (leerentrada('accion') == 'guardar') {            
             $this->save($entrada);            
@@ -216,17 +212,20 @@ class ambodont
             echo "javascript: link_ajax('/base/" . $this->ruta . "/modificar.php','div_principal');";
             echo 'setTimeout(function(){ msgsnackbar("Grabó correctamente", "success"); }, 1000)';
         } else {
-            if ($_SESSION['clase_opera'] == 'Asociaciones') {
-                $efector = $this->smarty->fetch('efector.tpl');
-                $this->smarty->assign('efector', $efector);
-            }
             
-            $this->smarty->assign('titulo', 'Ambulatorias Odontológicas');
+            $efector = $this->smarty->fetch('efector.tpl');
+            $this->smarty->assign('efector', $efector);
+
+            $prescriptor = $this->smarty->fetch('prescriptor.tpl');
+            $this->smarty->assign('prescriptor', $prescriptor);
+
+            $diagno = $this->smarty->fetch('diagno.tpl');
+            $this->smarty->assign('diagno', $diagno);
+
+            $this->smarty->assign('titulo', 'Solicitud Autorizacion de Practicas Ambulatorias');
             $this->smarty->assign('ruta', $this->ruta);
-            $this->smarty->assign('matricula',  intval($_SESSION['nroafil']));
-            $this->smarty->assign('cuitpres',  ($_SESSION['nro_documento']));
-            $this->smarty->assign('obsoc', fnccomboDB("whal.ol_obsocconodon", "cod_obsocconec", "desc_obsoc", "cod_obsocconec",array("nro_documento" =>  $_SESSION['nro_documento'])));
-       
+            $where = ' not exists ( select * from  TOpObSocNO where operadores_ID = '.$_SESSION['operadores_id'].' AND CodObSoc = qryOSConecaut.codigo)';              
+            $this->smarty->assign('obsoc', fnccomboDBConect("qryOSConecaut", "codigo", "descripcion", "cod_tosconec",$where));            
             $this->smarty->display('formulario.tpl');
     }
 }
@@ -248,6 +247,23 @@ class ambodont
             $this->smarty->display('adjuntainforme.tpl');
         
     }
+    public function agrega_adjunto()
+    {
+        if (isset($entrada['param'])) {
+            $entrada = base64_decode($entrada['param']);
+            parse_str($entrada, $entrada);
+        };
+        $cod_obsocConec = (isset($entrada['codinterno'])) ? $entrada['codinterno'] :  $_SESSION['cod_obsoc'];     
+        $obsocSess = $_SESSION['cod_obsoc'];
+        $_SESSION['cod_obsoc'] = $cod_obsocConec ;
+                  
+        $this->smarty->assign('titulo', 'Adjunta Informe pedido Auditor');
+        $this->smarty->assign('ruta', $this->ruta);
+        $this->smarty->assign('cod_obsoc',$cod_obsocConec);  
+        $_SESSION['cod_obsoc'] = $obsocSess ;       
+        $this->smarty->display('agrega_adjunto.tpl');
+    
+}
     public function consulta_aut($entrada)
         {
             if (isset($entrada['param'])) {
@@ -256,12 +272,9 @@ class ambodont
             };
 
        
-        
-        
         $cod_obsocConec = (isset($entrada['codinterno'])) ? $entrada['codinterno'] :  $_SESSION['cod_obsoc'];     
         $obsocSess = $_SESSION['cod_obsoc'];
         $_SESSION['cod_obsoc'] = $cod_obsocConec ;
-        
        
 
         $error                 = DB::Connect();
@@ -332,7 +345,7 @@ class ambodont
         
     }
 
-    public function carga_asoc($entrada)
+    public function carga_inst($entrada)
     {
         $cod_obsocConec = (isset($entrada['cod_obsocconec'])) ? $entrada['cod_obsocconec'] :  $_SESSION['cod_obsoc'];     
             $obsocSess = $_SESSION['cod_obsoc'];
@@ -343,18 +356,12 @@ class ambodont
         if ($error) {
             die('Error en conexión');
         }
+        $datosinst = DB::Select('whal.autoperadores','id_minstituciones,cod_agencia,operadores_id,matricula',"nroingreso='" . $_SESSION['nroingreso'] . "'");
+       
+        
+        return json_encode($datosinst[0]);
+           
 
-        if ($_SESSION['clase_opera'] == 'Odontologo') {  
-            
-                $cuitpres = $entrada['cuitpres'];             
-
-                $this->smarty->assign('asociaciones', fnccomboDB("whal.busmedodont", "minstituciones_id", "rsoc", "minstituciones_id",array("cuitpres" =>  $cuitpres)));
-                $_SESSION['cod_obsoc'] = $obsocSess ;
-                $this->smarty->display('asociacion.tpl'); 
-            // $asociacion = $this->smarty->fetch('asociacion.tpl');
-            // $this->smarty->assign('asociacion', $asociacion); 
-                            
-        }
     }
     public function form_list_aut($entrada)
     {
@@ -552,6 +559,64 @@ class ambodont
 
     }
     
+    public function listarOrdenPractica($entrada)
+    {
+      if(isset($entrada['param'])){
+         $entrada = base64_decode($entrada['param']);
+         parse_str($entrada, $entrada);
+      };
+  
+      
+      $reportName = ($entrada["tipoorden"] == 0 ? 'orden_practica' : '');
+      $urlimg = HOMEDIR . '/img/logo_pdf_' . $_SESSION['cod_obsoc'] . '.jpg';
+      if ($_SESSION['cod_obsoc'] == ACTOMED) {
+        $reportName = ($entrada["tipoorden"] == 0 ? 'orden_practicaiapos' : '');
+        $urlimg = HOMEDIR . '/img/logo_pdf_iapos.jpg';
+      }
+     
+      $input  = HOMEDIR . '/reportes/'.$reportName.'.jasper';
+      $output = HOMEDIR . '/tmp/'.$reportName . $entrada["nroorden"];
+  
+  
+      $where  =  $entrada["nroorden"] .",". $entrada["sucursal"] ;
+      $copia  =  (isset($entrada["copia"]))?$entrada["copia"]:'' ;
+      $observa  =  (isset($entrada["observa"]))?$entrada["observa"]:'' ;
+      $diagno  =  (isset($entrada["diagno"]))?$entrada["diagno"]:'' ;
+    
+      
+   //die($reportName.'  '. $urlimg);
+      $jdbc_dir = HOMEDIR . '/vendor/geekcom/phpjasper/bin/jasperstarter/jdbc';
+      $pdfconec = json_decode(DesEncriptarCadena(utf8_decode($_SESSION['pdfconec'])));
+      //die(DesEncriptarCadena(utf8_decode($_SESSION['pdfconec'])));
+      $options  = [
+        'format'        => ['pdf'],
+        'locale'        => 'es',
+        'params'        => array("observa" => $observa, "copia" => $copia,  "diagno" => $diagno, "urlimg" => $urlimg, "where" => $where),
+        'db_connection' => $pdfconec,
+      ];
+      $jasper = new JasperPHP;
+      $jasper->process(
+        $input,
+        $output,
+        $options
+      )->execute();
+      //output();
+      //execute();
+ // die($jasper->output());
+  
+     if (!isset($entrada['mail'])){
+        if (!file_exists($output . ".pdf")) die("Error en archivo");
+        $content = file_get_contents($output . ".pdf");
+        header('Content-Type: application/pdf');
+        header('Content-Disposition:inline; filename="ordenpractica_' . $entrada["nroorden"] . '.pdf"');
+        echo $content;
+        unlink($output . ".pdf");
+        exit();
+      }
+   
+  
+    }
+
     public function imprimeOrden($entrada)
     {
 
@@ -638,35 +703,7 @@ class ambodont
         $this->smarty->assign('ruta', $this->ruta);
         $this->smarty->display('aut_dia.tpl');
     }
-
-    public function existePrac($entrada)
-    {
-        if (isset($entrada['param'])) {
-            $entrada = base64_decode($entrada['param']);
-            parse_str($entrada, $entrada);
-        };
-
-        $cod_obsocConec = (isset($entrada['cod_obsocconec'])) ? $entrada['cod_obsocconec'] :  $_SESSION['cod_obsoc'];     
-        $obsocSess = $_SESSION['cod_obsoc'];
-        $_SESSION['cod_obsoc'] = $cod_obsocConec ;
-    
-        
-        $error = DB::Connect(); 
-        if ($error) die($error); 
-
-
-        $prestador = 0;
-        $cara      = isset($entrada['codcara']) ? $entrada['codcara'] : '';
-        $nropieza  = isset($entrada['nropieza']) ? $entrada['nropieza'] : 0;
-
-        $sql    = 'EXEC  WHAL.prd_existePractica :cuit, :mes, :anorendido, :codprac, :cara, :nropieza, :nrodoc, :prestador ;';
-        $values = array('cuit' => ($_SESSION['nro_documento']), 'mes' => date('m'), 'anorendido' => date('Y'), 'codprac' => $entrada['codnum'], 'cara' => isset($entrada['cara']) ? $entrada['cara'] : '', 'nropieza' => isset($entrada['nropieza']) ? $entrada['nropieza'] : 0, 'nrodoc' => $entrada['nro_documento'], 'prestador' => $prestador);
-       
-        $datos = DB::QueryRow($sql, $values);
-
-        $_SESSION['cod_obsoc'] = $obsocSess;
-        return json_encode($datos);
-    }
+   
 
     public function valida_ingresa($entrada)
     {
@@ -683,10 +720,10 @@ class ambodont
         
         $error = DB::Connect(); 
         if ($error) die($error);
-
+        
         $json =json_encode($entrada);
-     
-        $sql    = 'EXEC  WHAL.OL_JSIngOd :vjson;';
+       // die(($json));
+        $sql    = 'EXEC  WHAL.OL_JSValidaAut :vjson;';
         $values = array('vjson' => $json);
        
         $datos = DB::QueryRow($sql, $values);
@@ -730,14 +767,14 @@ class ambodont
         $cod_obsocConec = (isset($entrada['cod_obsocconec'])) ? $entrada['cod_obsocconec'] :  $_SESSION['cod_obsoc'];     
         $obsocSess = $_SESSION['cod_obsoc'];
         $_SESSION['cod_obsoc'] = $cod_obsocConec ;
-    
+        die($obsocSess);
         
         $error = DB::Connect(); 
         if ($error) die($error); 
 
-       
+      
         //@Matricula int, @Cod_Prestador int, @Cod_plan int
-        $sql    = 'EXEC  WHAL.ol_validaplanod :matricula, :cod_prestador, :cod_plan ';
+        $sql    = 'EXEC  WHAL.ol_validaplanol :matricula, :cod_prestador, :cod_plan ';
         $values = array('matricula' => $entrada['matriculaefec'], 'cod_prestador' => $entrada['minstituciones_id'], 'cod_plan' =>$entrada['cod_plan']);
  
         $datos = DB::Query($sql, $values); 
@@ -765,11 +802,12 @@ class ambodont
 
       $json =json_encode($entrada);
      //die($json);
-      $sql    = 'EXEC  WHAL.ol_jsgrabaod :vjson;';
+      $sql    = 'EXEC  WHAL.ol_jsgrabaaut :vjson;';
       $values = array('vjson' => $json);
       
       $datos = DB::QueryRow($sql, $values);
-           
+       //die(var_dump($datos));  
+      
       $_SESSION['cod_obsoc'] = $obsocSess;
         if (!$datos) {
             $estado = array('cod_error' => 1, 'mensaje' => 'Error en grabacion ');            
@@ -777,10 +815,12 @@ class ambodont
             $estado = array('cod_error' => $datos['estado'], 'mensaje' => 'Grabo correctamente ');
             $nroorden = $datos['nroorden'];
             $obsobweb = $datos['obsobweb'];
+            $sucursal = 0;
+            $tipoorden = 0;
             
             if($datos['estado'] == 0){
                 $estado = array('cod_error' => 0,'mensaje' => 'Grabo correctamente ' ,  'param' => "ruta=".$this->ruta."&obsobweb=".$obsobweb."&nro_orden= ".$nroorden."");
-                echo "javascript: link_ajax('/base/" . $this->ruta . "/imprimeOrden.php?ruta=".$this->ruta."&accion=imprimir&obsobweb=".$obsobweb."&nro_orden= ".$nroorden."','div_principal','form_list_aut', 'si');";
+                echo "javascript: link_ajax('/base/" . $this->ruta . "/listarOrdenPractica.php?ruta=".$this->ruta."&obsobweb=".$obsobweb."&nroorden= ".$nroorden."&sucursal= ".$sucursal."&tipoorden= ".$tipoorden."','div_principal','form_list_aut', 'si');";
             }
            
           }     
@@ -788,6 +828,62 @@ class ambodont
             return $estado;
           
     }
+
+    public function listar($entrada)
+  {
+  
+    if(isset($entrada['param'])){
+       $entrada = base64_decode($entrada['param']);
+       parse_str($entrada, $entrada);
+    };
+
+    $reportName = ($entrada["tipoorden"] == 0 ? 'cupon_consumo' : 'cupon_interna')  ;
+   
+    $input  = HOMEDIR . '/reportes/'.$reportName.'.jasper';
+    $output = HOMEDIR . '/tmp/'.$reportName.$entrada["nroorden"];
+
+
+    $where  =  $entrada["nroorden"] ;
+    $operador  =   isset($entrada["operador"]) ? $entrada["operador"] : '';
+    $copia  =   isset($entrada["copia"]) ? $entrada["copia"] : '';
+    $auditor  =   isset($entrada["auditor"]) ? $entrada["auditor"] : '';
+    $diagno  =   isset($entrada["diagno"]) ? $entrada["diagno"] : ''; 
+    $urlimg = HOMEDIR . '/img/logo_pdf_' . $_SESSION['cod_obsoc'] . '.jpg';
+	
+	 if ($_SESSION['cod_obsoc'] == ACTOMED) {
+     // $reportName = ($entrada["tipoorden"] == 0 ? 'orden_practicaiapos' : '');
+      $urlimg = HOMEDIR . '/img/logo_pdf_iapos.jpg';
+    }
+
+    $jdbc_dir = HOMEDIR . '/vendor/geekcom/phpjasper/bin/jasperstarter/jdbc';
+    $pdfconec = json_decode(DesEncriptarCadena($_SESSION['pdfconec']));
+    $options  = [
+      'format'        => ['pdf'],
+      'locale'        => 'es',
+      'params'        => array("Operador" => $operador, "Copia" => $copia, "auditor" => $auditor, "Diagno" => $diagno, "urlimg" => $urlimg, "where" => $where),
+      'db_connection' => $pdfconec,
+    ];
+    $jasper = new JasperPHP;
+    $jasper->process(
+      $input,
+      $output,
+      $options
+    )->execute();
+ //   die($jasper->output());
+
+   if (!isset($entrada['mail'])){
+    // die($output . ".pdf");
+      $content = file_get_contents($output . ".pdf");
+      header('Content-Type: application/pdf');
+      header('Content-Disposition:inline; filename="orden_' . $entrada["nroorden"] . '.pdf"');
+      echo $content;
+      unlink($output . ".pdf");
+      exit();
+    }
+ 
+
+  }
+
     public function carga_img($entrada)
     {
         if (isset($entrada['param'])) {
@@ -806,11 +902,12 @@ class ambodont
 
                 if (isset($_FILES['file']['tmp_name'][$i]) &&  strlen($_FILES['file']['tmp_name'][$i]) > 1 && $_FILES["file"]["size"][$i] < 6 * MB) {
                     $allowedFileType = ['image/png', 'image/jpg', 'image/jpeg', 'application/pdf', 'application/msword'];
+                    
                     if (in_array($_FILES["file"]["type"][$i], $allowedFileType)) {                        
                         $filename = "archivo_" . $nroRandom . "_" . $i . "_" . date('d_m_y');
                         // Location
                         $obsoc = $_SESSION['cod_obsoc'];
-                        $targetDir = HOMEDIR . '/archivosodont/' . $obsoc;
+                        $targetDir = HOMEDIR . '/archivosaut/' . $obsoc;
                         if (!file_exists($targetDir)) {
                             mkdir($targetDir, 0777, true);
                         }

@@ -16,7 +16,7 @@ class personal
 
     public function __construct()
     {
-        $error = DB::Connect();
+        $error = DB::ConnectMysql();
         if ($error) {
             die($error);
         }

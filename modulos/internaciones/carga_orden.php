@@ -1,6 +1,6 @@
 <?php
 
-  require_once("ambodont.php");
-  $obj = new ambodont();
+  require_once("internaciones.php");
+  $obj = new internaciones();
   echo $obj->carga_orden($_REQUEST);
 

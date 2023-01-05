@@ -1,4 +1,8 @@
 <?php
+define('KB', 1024);
+define('MB', 1048576);
+define('GB', 1073741824);
+define('TB', 1099511627776);
 
 function fnccomboDB(
     $tabla,
@@ -10,11 +14,30 @@ function fnccomboDB(
 ) {
 
     $db_funciones = DB::Select($tabla, "*", $where, $campo_order);
-
-    foreach ($db_funciones as $id => $valor) {
+   
+        foreach ($db_funciones as $id => $valor) {
         $funciones[$valor[$campo_clave]] = $valor[$campo_clave] . " - " . $valor[$campo_descripcion];
         if ($onlyDesc) $funciones[$valor[$campo_clave]] = $valor[$campo_descripcion];
     }
+    return $funciones;
+}
+function fnccomboDBConect(
+    $tabla,
+    $campo_clave,
+    $campo_descripcion,
+    $campo_order,
+    $where = null,    
+    $onlyDesc = false
+) {
+    $error = DB::ConnectMysql();
+    if ($error) die($error);
+    
+    $db_funciones = DB::Select($tabla, "*", $where, $campo_order);
+    
+        foreach ($db_funciones as $id => $valor) {
+        $funciones[$valor[$campo_order]] = $valor[$campo_clave] . " - " . $valor[$campo_descripcion];
+       if ($onlyDesc) $funciones[$valor[$campo_clave]] = $valor[$campo_descripcion];
+    }   
     return $funciones;
 }
 function fnccargachk(
@@ -154,6 +177,7 @@ function leerentrada($clave, $snobligatorio = false)
     }
 }
 
+
 function DesEncriptarCadena($cadena)
 {
 
@@ -172,14 +196,13 @@ function DesEncriptarCadena($cadena)
  */
 function DesEncriptarCaracter($caracter, $largocadena, $posicion)
 {
-    $patron_encripta = 'B8�CyEF0GrsHKLMij7N1OPopQRST3VW2XklYZ4ab5cef6ghmnIJ�qtvAwxzD9d';
-    $patron_busqueda = 'C7rsGtv89HK34LMPQRSTVWzXYcdefZNFIJOabghijklmn�opqwxAy125B60DE�';
+    $patron_encripta = utf8_decode('B8ÑCyEF0GrsHKLMij7N1OPopQRST3VW2XklYZ4ab5cef6ghmnIJñqtvAwxzD9d');
+    $patron_busqueda = utf8_decode('C7rsGtv89HK34LMPQRSTVWzXYcdefZNFIJOabghijklmnñopqwxAy125B60DEÑ');
 
     if (strpos($patron_encripta, $caracter) > -1) {
         if (((strpos($patron_encripta, $caracter) + 1) - $largocadena - $posicion) > 0) {
             $indice = (strpos($patron_encripta, $caracter) - $largocadena - $posicion) % strlen($patron_encripta);
-        } else {
-            //La l�nea est� cortada por falta de espacio
+        } else {            
             $indice = (strlen($patron_busqueda) + ((strpos($patron_encripta, $caracter) - $largocadena - $posicion) % strlen($patron_encripta)));
         }
         $indice = $indice % strlen($patron_encripta);

@@ -1,6 +1,6 @@
 <?php
-require_once "ambodont.php";
-$obj = new ambodont();
+require_once "ambulatorias.php";
+$obj = new ambulatorias();
 
 if ($_REQUEST['accion'] == 'imprimir') {
   if ($_POST) {

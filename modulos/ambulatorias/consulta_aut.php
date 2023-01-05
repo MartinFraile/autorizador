@@ -1,5 +1,5 @@
 <?php
-require_once "ambodont.php";
-$obj = new ambodont();
+require_once "ambulatorias.php";
+$obj = new ambulatorias();
 echo $obj->consulta_aut($_REQUEST);
 

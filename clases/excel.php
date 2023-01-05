@@ -16,7 +16,7 @@ class excel
     $this->documento = new Spreadsheet();
     $this->documento
       ->getProperties()
-      ->setCreator("Torreon Software");
+      ->setCreator("Whal Software");
     $this->hoja = $this->documento->getActiveSheet();
 
   }

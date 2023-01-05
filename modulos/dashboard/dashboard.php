@@ -30,7 +30,7 @@ class dashboard
         $this->ruta    = "modulos/dashboard";
         $login         = new personal();
         $error         = $login->islogin();
-        $error         = DB::Connect();
+        $error         = DB::ConnectMysql();
         if ($error) {
             die($error);
         }
@@ -70,6 +70,7 @@ class dashboard
                 break;
             
         }
+
 
         $where = array("habilitado" => 1, "cod_menupadre" => $cod_menupadre);
         $datos = DB::Select("menuaut", "*", $where, "orden ASC" );

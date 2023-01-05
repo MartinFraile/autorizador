@@ -48,7 +48,7 @@ class DB
      * @param boolean $silent_errors [OPTIONAL] Show no errors on queries
      * @return boolean/string The error if there was one otherwise FALSE
      */
-    public static function Connect($silent_errors = false)
+    public static function ConnectMysql($silent_errors = false)
     {
 
         try {
@@ -103,6 +103,84 @@ class DB
         // Return the results
         return $error;
     }
+
+    
+    /**
+     * Connects to a MSSQL PDO database.
+     *
+     * NOTE: I chose to pass back an error on this routine because a database
+     * connection error is serious and the author might want to send out email
+     * or other communications to alert them. If the connection is successful,
+     * then FALSE is returned (as in there was not an error to report).
+     *
+     * @param string $username Database user name
+     * @param string $password Database password
+     * @param string $database Database or schema name
+     * @param string $hostname [OPTIONAL] Host name of the server
+     * @param boolean $silent_errors [OPTIONAL] Show no errors on queries
+     * @return boolean/string The error if there was one otherwise FALSE
+     */
+    public static function Connect($silent_errors = false)
+    {
+
+        try {
+            $error                 = DB::ConnectMysql();
+            $where = array("cod_obsoc" => $_SESSION['cod_obsoc'] );
+            $detalle = DB::SelectRow('tosconec', '*', $where);
+
+            $str_conect                = $detalle['coneccion'];
+            $_SESSION['controladeuda'] = $detalle['controldeuda'];
+            $_SESSION['nomobsoc']      = $detalle['descripcion'];
+            $_SESSION['pdfconec']      = $detalle['pdfconec'];            
+            
+            $str_connect = DesEncriptarCadena(utf8_decode($str_conect)); 
+            
+            if ($detalle['controldeuda'] == 5){ //Mysql
+                // Connect to the MySQL database
+                $GLOBALS[self::PDO_DB] = new PDO($str_connect, "whal", "Whal97.qqsclan");
+            }else{
+                // Connect to the SQL SERVER database
+                $GLOBALS[self::PDO_DB] = new PDO($str_connect, "uidpresta", "D0B10EA4 1");
+            }
+         
+
+            // If we are connected...
+            if ($GLOBALS[self::PDO_DB]) {
+
+                // The default error mode for PDO is PDO::ERRMODE_SILENT.
+                // With this setting left unchanged, you'll need to manually
+                // fetch errors, after performing a query
+                if (!$silent_errors) {
+                    $GLOBALS[self::PDO_DB]->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                }
+                // atributo para que los nombres de los campos esten en minuscula
+                $GLOBALS[self::PDO_DB]->setAttribute(PDO::ATTR_CASE, PDO::CASE_LOWER);
+                // Connection was successful
+                $error = false;
+
+            } else {
+
+                // Connection was not successful
+                $error = true;
+
+            }
+
+            // If there was an error...
+        } catch (PDOException $e) {
+
+            // Get the error
+            $error = 'Database Connection Error (' . __METHOD__ . '): ' .
+            $e->getMessage();
+
+            // Send the error to the error event handler
+            self::ErrorEvent($error, $e->getCode());
+
+        }
+
+        // Return the results
+        return $error;
+    }
+
 
     /**
      * Executes a SQL statement using PDO
@@ -521,6 +599,7 @@ class DB
         }
 
         // Execute the query and return the results
+        
         return self::Query($sql, $where_array['placeholders'],
             $debug, $fetch_parameters);
     }

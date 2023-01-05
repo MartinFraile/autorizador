@@ -16,6 +16,12 @@ function buscar_cliente($html_codigo_id, $tipo = "")
 
         $columns = array('*');
         if (is_Numeric($codigo)) {
+            require_once("actomed.php");
+            $obj = new actomed();  
+            $pram = array("nro_afil" => $codigo);
+            $dato = $obj->afil_iapos($pram);
+$datos = array("Badocnumdo" => $dato['nrodoc'], "nro_afil" => $dato['Nafiliado'],);
+
             $where = array("nro_documento = $codigo  or cod_maestro = $codigo", "cod_agencia" => $_SESSION['cod_agencia']);
             $datos = DB::Select('qryclientes', $columns, $where);
         } else {

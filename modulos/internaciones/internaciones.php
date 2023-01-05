@@ -4,14 +4,12 @@ session_start();
 require_once "../../config.php";
 
 include '../../vendor/autoload.php';
-require_once CLASES_LOCAL . "/basededatos.php";
 require_once CLASES_LOCAL . "/funciones.php";
 require_once CLASES_LOCAL . "/DB.php";
 require_once CLASES_LOCAL . "/setup_smarty.php";
 use JasperPHP\JasperPHP;
-use MercadoPago\TrackValues;
 
-class ambodont
+class internaciones
 {
     private $homedir;
     // propiedades de la clase
@@ -32,7 +30,7 @@ class ambodont
         $this->tabla         = 'whal.olbenef';
         $this->campo_codigo  = "nro_documento";
         $this->codigo        = leerentrada($this->campo_codigo);
-        $this->ruta          = "modulos/ambodont";
+        $this->ruta          = "modulos/internaciones";
         $this->cantregistros = 15;
 
         $this->campos_lst = array(
@@ -87,7 +85,7 @@ class ambodont
         }
         $datagrid->mostrar($sql, $this->smarty);
         $this->smarty->assign('hidebus', 'true');
-        // $smarty->assign('titulo', 'ambodont del dia');
+        // $smarty->assign('titulo', 'internaciones del dia');
         $this->smarty->display(HOMEDIR . '/tpl/listado.tpl');
 
     }
