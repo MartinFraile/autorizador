@@ -1,0 +1,17 @@
+  
+.htaccess
+config.php
+config_arriba.php
+le64.exe
+composer.lock
+**/templates_c
+.vscode/launch.json
+*.key
+*.crt
+*.txt
+*.csr
+archivosTramites/*
+tmp/*
+vendor/*
+archivosAutorizaciones/*
+archivosodont/*

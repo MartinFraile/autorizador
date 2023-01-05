@@ -19,17 +19,5 @@ if ($error == false) {
 } else {    
      header("Location: /inicio");
      exit;
-    /*require_once CLASES_LOCAL . "/menu.php";
-    require_once CLASES_LOCAL . "/setup_smarty.php";
-    $smarty          = new Smarty_Whal();
-    $smarty->caching = false;
-    if ($personal->clase_opera == "Jugador" || $personal->clase_opera == "Administrador" ) {
-        header("Location: /inicio");
-        exit;
-    }
-
-    $menu = new menu($personal->nomusuario);
-    $smarty->assign('menu', $menu->armarmenu($personal->cod_clase));
-    $smarty->display(HOMEDIR . "/tpl/index.tpl");*/
-
+  
 }
