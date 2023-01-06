@@ -27,7 +27,7 @@ class dashboard
     {
 
         $this->homedir = HOMEDIR;
-        $this->ruta    = "modulos/dashboard";
+        $this->ruta    = "dashboard";
         $login         = new personal();
         $error         = $login->islogin();
         $error         = DB::ConnectMysql();
@@ -83,7 +83,7 @@ class dashboard
                 }
             }
         }
-
+//die(var_dump($filterDatos));
         //die(var_dump($filterDatos));
         $this->smarty->assign('datos', $filterDatos);
 

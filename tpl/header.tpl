@@ -9,8 +9,8 @@
     <script src="/js/funciones.js" type="text/javascript"></script>
     <script src="/js/tablas.js" type="text/javascript"></script>
     <link rel='manifest' href='/manifest.json'>
-    <script src="/app.js" type="text/javascript"></script>
-    <link rel="icon" type="image/png" sizes="16x16" href="/img/launcher/chrome/chrome-favicon-16-16.png">
+    
+    <link rel="icon" type="image/png" sizes="16x16" href="img/launcher/chrome/chrome-favicon-16-16.png">
     
 
     <title>Autorizador Web</title>
@@ -128,7 +128,7 @@ $(document).on("keydown", ":input:not(textarea)", function(event) {
     }
 </script>
 <div id="prompt" style="display: flex;" class="prompt hide bg-light border-top">
-    <div><img src="/img/logo_56.png" style="max-height: 80px;"></div>
+    <div><img src="img/logo_56.png" style="max-height: 80px;"></div>
     <div style="margin-left: 15px;width: 100%;margin-top: 15px;">
         <div class="font-weight-bold">Añadir App al Inicio</div>
         <small>Puedes instalar un acceso directo a la app</small>
@@ -146,7 +146,7 @@ $(document).on("keydown", ":input:not(textarea)", function(event) {
         <a href="#" class="cancelar" id="backbtn">{include file="$base/img/backbtn.svg" }</a>        
     </div>
     <div style="max-width:100px;width:100px;margin:7px;position:absolute;left:40px;">
-        <img src="/img/logo_ingreso.png" style="max-height: 30px;"  alt="Autorizador" >        
+        <img src="img/logo_ingreso.png" style="max-height: 30px;"  alt="Autorizador" >        
     </div>
     <div style="max-width:360px;width:360px;margin:10px;font-size:larger;font-weight:bold;position:absolute;left:85px;">        
         <span>Autorizador Online - </span>
@@ -155,7 +155,7 @@ $(document).on("keydown", ":input:not(textarea)", function(event) {
         {$active|default:''}
     </div>    
     <div style="max-width:300px;width:auto;margin:13px;position:absolute;right:15px;">
-        <img src="/img/perfil.png" width="16" height="16" style="margin-right:5px;padding-top:2px;"  alt="User" >{$nomusuario|upper|default:''}
+        <img src="img/perfil.png" width="16" height="16" style="margin-right:5px;padding-top:2px;"  alt="User" >{$nomusuario|upper|default:''}
     </div>
 
 </div>

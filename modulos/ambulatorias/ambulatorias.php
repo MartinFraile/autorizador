@@ -30,7 +30,7 @@ class ambulatorias
         $this->tabla         = 'whal.olbenef';
         $this->campo_codigo  = "nro_documento";
         $this->codigo        = leerentrada($this->campo_codigo);
-        $this->ruta          = "modulos/ambulatorias";
+        $this->ruta          = "ambulatorias";		
         $this->cantregistros = 15;
 
         $this->campos_lst = array(
@@ -58,6 +58,7 @@ class ambulatorias
         );
         $this->smarty          = new Smarty_Whal();
         $this->smarty->caching = false;
+		$this->smarty->assign('active', "Home");
        
     }
 

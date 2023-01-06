@@ -50,13 +50,17 @@ class DB
      */
     public static function ConnectMysql($silent_errors = false)
     {
-
+		require_once 'funciones.php';
+    
         try {
             $db      = $_SESSION[CLAVE_PRINCIPAL]['db_mysql'];
             $host    = $db['host'];
             $db_name = $db['db_name'];
             $user    = $db['user'];
-            $pass    = $db['passwd'];
+            //$pass    = $db['passwd'];
+			$pass    = DesEncriptarCadena($db['passwd']);
+			
+			
             // Connect to the MySQL database
             $GLOBALS[self::PDO_DB] = new PDO('mysql:' .
                 'host=' . $host . ';' .

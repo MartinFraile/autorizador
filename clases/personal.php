@@ -145,6 +145,7 @@ class personal
                 }
             }
         }
+		
         $_SESSION['menu'] = $filterDatos;
     }
 
