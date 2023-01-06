@@ -1,28 +1,28 @@
-![PHPJasper logo](../images/phpjasper.png)
-
 # PHPJasper
 
-_Gerador de relatórios PHP_
-
-[![Build Status](https://travis-ci.org/PHPJasper/phpjasper.svg?branch=master)](https://travis-ci.org/PHPJasper/phpjasper)
-[![Coverage Status](https://coveralls.io/repos/github/PHPJasper/phpjasper/badge.svg?branch=master)](https://coveralls.io/github/PHPJasper/phpjasper?branch=master)
-[![Latest Stable Version](https://poser.pugx.org/geekcom/phpjasper/v/stable)](https://packagist.org/packages/geekcom/phpjasper)
-[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%207.2-blue.svg?style=flat-square)](https://php.net/)
-[![Total Downloads](https://poser.pugx.org/geekcom/phpjasper/downloads)](https://packagist.org/packages/geekcom/phpjasper)
-[![License](https://poser.pugx.org/geekcom/phpjasper/license)](https://packagist.org/packages/geekcom/phpjasper)
-[![PHPStan](https://img.shields.io/badge/PHPStan-enabled-brightgreen.svg?style=flat)](https://github.com/phpstan/phpstan) 
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/geekcom/phpjasper/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/geekcom/phpjasper/?branch=master)
+[![StyleCI](https://styleci.io/repos/46984485/shield?branch=master)](https://styleci.io/repos/46984485)
+[![Latest Stable Version](https://img.shields.io/packagist/v/geekcom/phpjasper.svg?style=flat-square)](https://packagist.org/packages/geekcom/phpjasper)
+[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%205.4-blue.svg?style=flat-square)](https://php.net/)
+[![License](https://poser.pugx.org/geekcom/phpjasper/license)](https://packagist.org/packages/geekcom/phpjasper) 
 
 ### Documentação
 [![Language-en_US](https://img.shields.io/badge/en__US-100%25-green.svg)](https://github.com/PHPJasper/phpjasper/blob/master/README.md)
 
 ### Sobre a biblioteca
 
-PHPJasper é a solução perfeita para compilar e processar relatórios Jasper (.jrxml & .jasper) com PHP, ou seja, gerar relatórios com PHP.
+Este pacote é a solução perfeita para compilar e processar relatórios Jasper (.jrxml & .jasper) com PHP.
 
-**Notas:** 
-* PHPJasper pode ser usado independente de seu Framework
-* Se você está usando uma versão menor que PHP 7.0 veja: [v1.16](https://github.com/PHPJasper/phpjasper/releases/tag/v1.16)
-* [Aqui](https://github.com/PHPJasper/examples) tem vários exemplos de como usar PHPJasper
+**Nota:** PHPJasper pode ser usado independente de seu Framework
+
+**Seu servidor é Linux?**
+
+Não esqueça de fornecer as permissões devidas para o diretório
+**/vendor/geekcom/phpjasper/bin/jasperstarter/bin** e para o arquivo binário **jasperstarter**
+
+**Precisa gerar relatórios em Python?**
+
+Conheça a biblioteca **[pyreport](https://github.com/jadsonbr/pyreport)**
 
 ### Por quê preciso do PHPJasper?
 
@@ -36,7 +36,7 @@ Apresento para vocês **JasperReports** a melhor solução open source que exist
 
 **Texto extraido do site JasperSoft:**
 
-> A biblioteca JasperReports é o mecanismo de geração de relatórios de código aberto mais popular do mundo. É inteiramente escrito em Java e é capaz de usar dados provenientes de qualquer tipo de fonte de dados e gerar documentos perfeitos que podem ser visualizado, impresso ou exportado em uma variedade de formatos de documentos, incluindo HTML, PDF, Excel, OpenOffice e Word .
+> A biblioteca JasperReports é o mecanismo de geração de relatórios de código aberto mais popular do mundo. É inteiramente escrito em Java e é capaz de usar dados provenientes de qualquer tipo de fonte de dados e gerar documentos perfeitos que podem ser visualizado, impressom ou exportadom em uma variedade de formatos de documentos, incluindo HTML, PDF, Excel, OpenOffice e Word .
 
 *Exemplos do que você pode fazer:*
 
@@ -44,18 +44,45 @@ Apresento para vocês **JasperReports** a melhor solução open source que exist
 * Relatórios
 * Listas
 
+
 ## Requisitos
 
-* PHP 7.2 em diante
 * Java JDK 1.8
+* PHP 5.4 em diante
 
 ## Opcional
 
-* Qualquer driver jdbc (MySQL, PostgreSQL, MSSQL...), para ser usado deve ser copiado para a pasta `bin/jasperstarter/jdbc`
-* Incluímos o [MySQL connector](http://dev.mysql.com/downloads/connector/j/) (v5.1.48) na pasta `bin/jasperstarter/jdbc`
-* Incluímos também o [PostgreSQL](https://jdbc.postgresql.org/) (42.2.9) na pasta `bin/jasperstarter/jdbc`
+* [Mysql JDBC Driver](http://dev.mysql.com/downloads/connector/j/) (se você pretende usar esse tipo de banco de dados)
+* [PostgreSQL JDBC Driver](https://jdbc.postgresql.org/download.html) (se você pretende usar esse tipo de banco de dados)
 * [Microsoft JDBC Drivers](https://www.microsoft.com/en-US/download/details.aspx?id=11774) (se você pretende usar esse tipo de banco de dados)
 * [Jaspersoft Studio](http://community.jaspersoft.com/project/jaspersoft-studio) (para escrever e compilar seus relatórios)
+
+### Instalando o Java(JDK)
+
+Verifique se o JDK está instalado:
+
+```
+$ javac -version
+javac version 1.8.0_101
+```
+
+Se você receber a resposta:
+
+    command not found: javac
+
+Então você precisa instalar, para o (Ubuntu/Debian) rode o comando:
+
+    $ sudo apt-get install default-jdk
+
+Para instalar no (centOS/Fedora) faça o seguinte:
+
+    # yum install java-1.8.0-openjdk.x86_64
+
+Para instalar no Windows visite o link-> [JDK](http://www.oracle.com/technetwork/pt/java/javase/downloads/jdk8-downloads-2133151.html) e veja qual a versão mais apropriada para o seu Sistema Operacional.
+
+Agora rode novamente o comando `javac -version` e veja se deu tudo certo.
+
+---------------------------------------------------------------------------------------------------------------------------
 
 ## Instalando a biblioteca PHPJasper
 
@@ -70,7 +97,7 @@ Ou crie um arquivo 'composer.json' e adicione o trecho:
 ```json
 {
     "require": {
-        "geekcom/phpjasper": "^3.2.0"
+        "geekcom/phpjasper": "1.*"
     }
 }
 ```
@@ -80,23 +107,6 @@ E execute o comando:
     composer install
 
 é isso, você tem a biblioteca instalada e pronta para uso.
-
-----------------------------------------------------------------------------------------------------------------------------
-## PHPJasper com Docker
-
-Com o Docker CE e o docker-compose instalados basta executar os comandos:
-
-* `docker-compose up -d`
-* `docker exec -it phpjasper composer install`
-
-Para rodar os testes dentro do container execute:
-
-* `docker exec -it phpjasper sudo composer test` ou
-* `docker exec -it phpjasper sudo composer testdox`
-
-Para ver o coverage basta executar o arquivo: `tests/log/report/index.html`
-
-_Ajude-nos escrevendo novos testes, faça um fork_ :)
 
 ----------------------------------------------------------------------------------------------------------------------------
 
@@ -117,11 +127,11 @@ Primeiro precisamos compilar o arquivo com a extensão `.JRXML` em um arquivo bi
 
 require __DIR__ . '/vendor/autoload.php';
 
-use PHPJasper\PHPJasper;
+use JasperPHP\JasperPHP;
 
 $input = __DIR__ . '/vendor/geekcom/phpjasper/examples/hello_world.jrxml';   
 
-$jasper = new PHPJasper;
+$jasper = new JasperPHP;
 $jasper->compile($input)->execute();
 ```
 
@@ -134,7 +144,7 @@ Agora vamos processar o nosso relatório que foi compilado acima:
 ```php
 require __DIR__ . '/vendor/autoload.php';
 
-use PHPJasper\PHPJasper;
+use JasperPHP\JasperPHP;
 
 $input = __DIR__ . '/vendor/geekcom/phpjasper/examples/hello_world.jasper';  
 $output = __DIR__ . '/vendor/geekcom/phpjasper/examples';    
@@ -142,7 +152,7 @@ $options = [
     'format' => ['pdf', 'rtf'] 
 ];
 
-$jasper = new PHPJasper;
+$jasper = new JasperPHP;
 
 $jasper->process(
     $input,
@@ -161,11 +171,11 @@ Como consultar o arquivo jrxml para examinar os parâmetros disponíveis no rela
 
 require __DIR__ . '/vendor/autoload.php';
 
-use PHPJasper\PHPJasper;
+use JasperPHP\JasperPHP;
 
 $input = __DIR__ . '/vendor/geekcom/phpjasper/examples/hello_world_params.jrxml';
 
-$jasper = new PHPJasper;
+$jasper = new JasperPHP;
 $output = $jasper->listParameters($input)->execute();
 
 foreach($output as $parameter_description)
@@ -179,7 +189,7 @@ Adicione os parâmetros específicos para conexão com seu banco de dados: MYSQL
 ```php
 require __DIR__ . '/vendor/autoload.php';
 
-use PHPJasper\PHPJasper;    
+use JasperPHP\JasperPHP;    
 
 $input = '/your_input_path/your_report.jasper';   
 $output = '/your_output_path';
@@ -197,7 +207,7 @@ $options = [
     ]
 ];
 
-$jasper = new PHPJasper;
+$jasper = new JasperPHP;
 
 $jasper->process(
         $input,
@@ -215,7 +225,7 @@ Para a lista completa de idiomas suportados veja o link [Supported Locales](http
 ```php
 require __DIR__ . '/vendor/autoload.php';
 
-use PHPJasper\PHPJasper;
+use JasperPHP\JasperPHP;
 
 $input = '/your_input_path/your_report.jasper or .jrxml';   
 $output = '/your_output_path';
@@ -237,7 +247,7 @@ $options = [
     ]
 ];
 
-$jasper = new PHPJasper;
+$jasper = new JasperPHP;
 
 $jasper->process(
         $input,
@@ -251,7 +261,7 @@ $jasper->process(
 ```php
 require __DIR__ . '/vendor/autoload.php';
 
-use PHPJasper\PHPJasper;
+use JasperPHP\JasperPHP;
 
 $input = '/your_input_path/your_report.jasper';   
 $output = '/your_output_path';
@@ -267,7 +277,7 @@ $options = [
     ]
 ];
 
-$jasper = new PHPJasper;
+$jasper = new JasperPHP;
 
 $jasper->process(
     $input,
@@ -281,7 +291,7 @@ $jasper->process(
 ```php
 require __DIR__ . '/vendor/autoload.php';
 
-use PHPJasper\PHPJasper;
+use JasperPHP\JasperPHP;
 
 $input = '/your_input_path/your_report.jasper';   
 $output = '/your_output_path';
@@ -298,7 +308,7 @@ $options = [
     ]
 ];
 
-$jasper = new PHPJasper;
+$jasper = new JasperPHP;
 
 $jasper->process(
     $input,
@@ -306,6 +316,21 @@ $jasper->process(
     $options
 )->execute();
 ```
+
+Para mais exemplos: [PHPJasper Examples](https://github.com/PHPJasper/examples)
+
+### MySQL
+
+Incluímos o [MySQL connector](http://dev.mysql.com/downloads/connector/j/) (v5.1.39) na pasta `/src/JasperStarter/jdbc/`
+
+### PostgreSQL
+
+Incluímos também o [PostgreSQL](https://jdbc.postgresql.org/) (v9.4-1203) na pasta `/src/JasperStarter/jdbc/`
+
+### MSSQL
+
+[Microsoft JDBC Drivers 6.0, 4.2, 4.1, and 4.0 for SQL Server
+](https://www.microsoft.com/en-us/download/details.aspx?displaylang=en&id=11774).
 
 ## Performance
 

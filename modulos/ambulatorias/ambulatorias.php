@@ -186,9 +186,9 @@ class ambulatorias
     {
         $estado = $entrada['estado'];
 
-        $where = 'not exists ( select * from  TOpObSocNO where operadores_ID = '.$_SESSION['operadores_id'].' AND CodObSoc = qs.codigo)';
+        $where = 'not exists ( select * from  topobsocno where operadores_ID = '.$_SESSION['operadores_id'].' AND CodObSoc = qs.codigo)';
         $this->smarty->assign('titulo', 'Listado');        
-        $this->smarty->assign('obrasoc', fnccomboDB("qryOSConecaut", "codigo", "descripcion", "codigo",$where));
+        $this->smarty->assign('obrasoc', fnccomboDB("qryosconecaut", "codigo", "descripcion", "codigo",$where));
         
         $this->smarty->assign('ruta', $this->ruta);
         $this->smarty->assign('estado', $estado);
@@ -225,8 +225,8 @@ class ambulatorias
 
             $this->smarty->assign('titulo', 'Solicitud Autorizacion de Practicas Ambulatorias');
             $this->smarty->assign('ruta', $this->ruta);
-            $where = ' not exists ( select * from  TOpObSocNO where operadores_ID = '.$_SESSION['operadores_id'].' AND CodObSoc = qryOSConecaut.codigo)';              
-            $this->smarty->assign('obsoc', fnccomboDBConect("qryOSConecaut", "codigo", "descripcion", "cod_tosconec",$where));            
+            $where = ' not exists ( select * from  topobsocno where operadores_ID = '.$_SESSION['operadores_id'].' AND CodObSoc = qryosconecaut.codigo)';              
+            $this->smarty->assign('obsoc', fnccomboDBConect("qryosconecaut", "codigo", "descripcion", "cod_tosconec",$where));            
             $this->smarty->display('formulario.tpl');
     }
 }
@@ -562,12 +562,13 @@ class ambulatorias
     
     public function listarOrdenPractica($entrada)
     {
+		
       if(isset($entrada['param'])){
          $entrada = base64_decode($entrada['param']);
          parse_str($entrada, $entrada);
       };
-  
-      
+	  
+	  
       $reportName = ($entrada["tipoorden"] == 0 ? 'orden_practica' : '');
       $urlimg = HOMEDIR . '/img/logo_pdf_' . $_SESSION['cod_obsoc'] . '.jpg';
       if ($_SESSION['cod_obsoc'] == ACTOMED) {
@@ -594,7 +595,7 @@ class ambulatorias
         'locale'        => 'es',
         'params'        => array("observa" => $observa, "copia" => $copia,  "diagno" => $diagno, "urlimg" => $urlimg, "where" => $where),
         'db_connection' => $pdfconec,
-      ];
+      ];	  
       $jasper = new JasperPHP;
       $jasper->process(
         $input,
@@ -603,7 +604,7 @@ class ambulatorias
       )->execute();
       //output();
       //execute();
- // die($jasper->output());
+ //die($jasper->output());
   
      if (!isset($entrada['mail'])){
         if (!file_exists($output . ".pdf")) die("Error en archivo");
@@ -807,9 +808,10 @@ class ambulatorias
       $values = array('vjson' => $json);
       
       $datos = DB::QueryRow($sql, $values);
-       //die(var_dump($datos));  
+       //die(var_dump($datos)); 
+	   
+       $_SESSION['cod_obsoc'] = $obsocSess; 
       
-      $_SESSION['cod_obsoc'] = $obsocSess;
         if (!$datos) {
             $estado = array('cod_error' => 1, 'mensaje' => 'Error en grabacion ');            
         }else{
@@ -821,11 +823,11 @@ class ambulatorias
             
             if($datos['estado'] == 0){
                 $estado = array('cod_error' => 0,'mensaje' => 'Grabo correctamente ' ,  'param' => "ruta=".$this->ruta."&obsobweb=".$obsobweb."&nro_orden= ".$nroorden."");
-                echo "javascript: link_ajax('/base/" . $this->ruta . "/listarOrdenPractica.php?ruta=".$this->ruta."&obsobweb=".$obsobweb."&nroorden= ".$nroorden."&sucursal= ".$sucursal."&tipoorden= ".$tipoorden."','div_principal','form_list_aut', 'si');";
+                echo "javascript: void window.open('/base/" . $this->ruta . "/listarOrdenPractica.php?ruta=".$this->ruta."&obsobweb=".$obsobweb."&nroorden=".$nroorden."&sucursal=".$sucursal."&tipoorden=".$tipoorden."','_blank');";
             }
            
           }     
-            
+          
             return $estado;
           
     }

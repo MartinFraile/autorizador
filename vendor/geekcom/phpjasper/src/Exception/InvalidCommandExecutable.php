@@ -1,11 +1,12 @@
 <?php
-
-namespace PHPJasper\Exception;
-
-use Exception;
-
-class InvalidCommandExecutable extends Exception
+namespace JasperPHP\Exception;
+/**
+ * Class InvalidCommandExecutable
+ * @package JasperPHP\Exception
+ */
+class InvalidCommandExecutable extends \Exception
 {
+
     /**
      * InvalidCommandExecutable constructor.
      * @param string $message
