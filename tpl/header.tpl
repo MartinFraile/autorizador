@@ -146,7 +146,7 @@ $(document).on("keydown", ":input:not(textarea)", function(event) {
         <a href="#" class="cancelar" id="backbtn">{include file="$base/img/backbtn.svg" }</a>        
     </div>
     <div style="max-width:100px;width:100px;margin:7px;position:absolute;left:40px;">
-        <img src="img/logo_ingreso.png" style="max-height: 30px;"  alt="Autorizador" >        
+        <img src="/img/logo_ingreso.png" style="max-height: 30px;"  alt="Autorizador" >        
     </div>
     <div style="max-width:360px;width:360px;margin:10px;font-size:larger;font-weight:bold;position:absolute;left:85px;">        
         <span>Autorizador Online - </span>
@@ -155,7 +155,7 @@ $(document).on("keydown", ":input:not(textarea)", function(event) {
         {$active|default:''}
     </div>    
     <div style="max-width:300px;width:auto;margin:13px;position:absolute;right:15px;">
-        <img src="img/perfil.png" width="16" height="16" style="margin-right:5px;padding-top:2px;"  alt="User" >{$nomusuario|upper|default:''}
+        <img src="/img/perfil.png" width="16" height="16" style="margin-right:5px;padding-top:2px;"  alt="User" >{$nomusuario|upper|default:''}
     </div>
 
 </div>

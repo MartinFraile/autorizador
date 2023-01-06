@@ -759,7 +759,7 @@ function doClick() {
                 if(json.cod_error == 0){
                   param =  btoa(json.param); 
                     $('#img').val = param;
-                  void window.open('/base/{$ruta}/imprimeOrden.php?param='+param);
+                 // void window.open('/base/{$ruta}/imprimeOrden.php?param='+param);
                   link_ajax('/base/blanquea.php','div_principal');
                   setTimeout(function(){ msgsnackbar(json.mensaje, color); }, 1000);
                 }else if(json.cod_error == 9){

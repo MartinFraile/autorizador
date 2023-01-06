@@ -3,11 +3,11 @@
     "description": "Sistemas Autorizaciones",
     "type": "project",
     "require": {
-        "phpmailer/phpmailer": "^6.1",
+        "phpmailer/phpmailer": "^6.0",
         "smarty/smarty": "^3.1",
-        "phpoffice/phpspreadsheet": "^1.18",
+        "phpoffice/phpspreadsheet": "^1.6",
         "geekcom/phpjasper": "^1.16",
-        "econea/nusoap": "^0.9.12"
+        "econea/nusoap": "^0.9.11"
     },
     "authors": [{
         "name": "Emiliano",

@@ -18,9 +18,10 @@
 if(test -L "$0") then
   auxlink=`ls -l "$0" | sed 's/^[^>]*-> //g'`
   HOME_FOLDER=`dirname "$auxlink"`/..
-else
+else 
   HOME_FOLDER=`dirname "$0"`/..
 fi
 
 #SCRIPTPATH="$(dirname $0)"
-java -jar "$HOME_FOLDER/lib/jasperstarter.jar" "$@"
+#java -jar "$HOME_FOLDER/lib/jasperstarter.jar" "$@"
+java -jar -Djava.net.preferIPv4Stack=true -Xmx1024m "$HOME_FOLDER/lib/jasperstarter.jar" "$@"

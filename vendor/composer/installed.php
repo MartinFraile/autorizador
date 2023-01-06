@@ -1,51 +1,137 @@
-<?php return array (
-  'root' => 
-  array (
-    'pretty_version' => 'dev-main',
-    'version' => 'dev-main',
-    'aliases' => 
-    array (
+<?php return array(
+    'root' => array(
+        'pretty_version' => 'dev-main',
+        'version' => 'dev-main',
+        'type' => 'project',
+        'install_path' => __DIR__ . '/../../',
+        'aliases' => array(),
+        'reference' => '259699abc46dacd7cce991afa1f807cd31c0cc3b',
+        'name' => 'administrador/sistemas',
+        'dev' => true,
     ),
-    'reference' => '0a059bea5b9a2d7c137eae28b1894987ac96fe3b',
-    'name' => 'administrador/sistemas',
-  ),
-  'versions' => 
-  array (
-    'administrador/sistemas' => 
-    array (
-      'pretty_version' => 'dev-main',
-      'version' => 'dev-main',
-      'aliases' => 
-      array (
-      ),
-      'reference' => '0a059bea5b9a2d7c137eae28b1894987ac96fe3b',
+    'versions' => array(
+        'administrador/sistemas' => array(
+            'pretty_version' => 'dev-main',
+            'version' => 'dev-main',
+            'type' => 'project',
+            'install_path' => __DIR__ . '/../../',
+            'aliases' => array(),
+            'reference' => '259699abc46dacd7cce991afa1f807cd31c0cc3b',
+            'dev_requirement' => false,
+        ),
+        'econea/nusoap' => array(
+            'pretty_version' => 'v0.9.12',
+            'version' => '0.9.12.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../econea/nusoap',
+            'aliases' => array(),
+            'reference' => 'e83219ee1add324124fea8e448b4cfddf782f8ff',
+            'dev_requirement' => false,
+        ),
+        'geekcom/phpjasper' => array(
+            'pretty_version' => 'v1.16',
+            'version' => '1.16.0.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../geekcom/phpjasper',
+            'aliases' => array(),
+            'reference' => '6820bb522c9c1756d25b3650b36bc3690d81e98f',
+            'dev_requirement' => false,
+        ),
+        'markbaker/complex' => array(
+            'pretty_version' => '1.5.0',
+            'version' => '1.5.0.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../markbaker/complex',
+            'aliases' => array(),
+            'reference' => 'c3131244e29c08d44fefb49e0dd35021e9e39dd2',
+            'dev_requirement' => false,
+        ),
+        'markbaker/matrix' => array(
+            'pretty_version' => '1.2.3',
+            'version' => '1.2.3.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../markbaker/matrix',
+            'aliases' => array(),
+            'reference' => '44bb1ab01811116f01fe216ab37d921dccc6c10d',
+            'dev_requirement' => false,
+        ),
+        'phpmailer/phpmailer' => array(
+            'pretty_version' => 'v6.7.1',
+            'version' => '6.7.1.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../phpmailer/phpmailer',
+            'aliases' => array(),
+            'reference' => '49cd7ea3d2563f028d7811f06864a53b1f15ff55',
+            'dev_requirement' => false,
+        ),
+        'phpoffice/phpspreadsheet' => array(
+            'pretty_version' => '1.8.2',
+            'version' => '1.8.2.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../phpoffice/phpspreadsheet',
+            'aliases' => array(),
+            'reference' => '0c1346a1956347590b7db09533966307d20cb7cc',
+            'dev_requirement' => false,
+        ),
+        'psr/log' => array(
+            'pretty_version' => '1.1.4',
+            'version' => '1.1.4.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../psr/log',
+            'aliases' => array(),
+            'reference' => 'd49695b909c3b7628b6289db5479a1c204601f11',
+            'dev_requirement' => false,
+        ),
+        'psr/log-implementation' => array(
+            'dev_requirement' => false,
+            'provided' => array(
+                0 => '1.0',
+            ),
+        ),
+        'psr/simple-cache' => array(
+            'pretty_version' => '1.0.1',
+            'version' => '1.0.1.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../psr/simple-cache',
+            'aliases' => array(),
+            'reference' => '408d5eafb83c57f6365a3ca330ff23aa4a5fa39b',
+            'dev_requirement' => false,
+        ),
+        'smarty/smarty' => array(
+            'pretty_version' => 'v3.1.47',
+            'version' => '3.1.47.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../smarty/smarty',
+            'aliases' => array(),
+            'reference' => 'a09364fe1706cb465e910eb040e592053d7effb8',
+            'dev_requirement' => false,
+        ),
+        'symfony/console' => array(
+            'pretty_version' => 'v3.4.47',
+            'version' => '3.4.47.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../symfony/console',
+            'aliases' => array(),
+            'reference' => 'a10b1da6fc93080c180bba7219b5ff5b7518fe81',
+            'dev_requirement' => false,
+        ),
+        'symfony/debug' => array(
+            'pretty_version' => 'v3.4.47',
+            'version' => '3.4.47.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../symfony/debug',
+            'aliases' => array(),
+            'reference' => 'ab42889de57fdfcfcc0759ab102e2fd4ea72dcae',
+            'dev_requirement' => false,
+        ),
+        'symfony/polyfill-mbstring' => array(
+            'pretty_version' => 'v1.19.0',
+            'version' => '1.19.0.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../symfony/polyfill-mbstring',
+            'aliases' => array(),
+            'reference' => 'b5f7b932ee6fa802fc792eabd77c4c88084517ce',
+            'dev_requirement' => false,
+        ),
     ),
-    'geekcom/phpjasper' => 
-    array (
-      'pretty_version' => '3.3.1',
-      'version' => '3.3.1.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => 'df25051c1c50410d89d51fa84b8b6457b3c1e851',
-    ),
-    'phpmailer/phpmailer' => 
-    array (
-      'pretty_version' => 'v6.4.1',
-      'version' => '6.4.1.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => '9256f12d8fb0cd0500f93b19e18c356906cbed3d',
-    ),
-    'smarty/smarty' => 
-    array (
-      'pretty_version' => 'v3.1.39',
-      'version' => '3.1.39.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => 'e27da524f7bcd7361e3ea5cdfa99c4378a7b5419',
-    ),
-  ),
 );

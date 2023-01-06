@@ -1,27 +1,26 @@
-![PHPJasper logo](docs/images/phpjasper.png)
-
 # PHPJasper
-_A PHP Report Generator_
-
-[![Build Status](https://travis-ci.org/PHPJasper/phpjasper.svg?branch=master)](https://travis-ci.org/PHPJasper/phpjasper)
-[![Coverage Status](https://coveralls.io/repos/github/PHPJasper/phpjasper/badge.svg?branch=master)](https://coveralls.io/github/PHPJasper/phpjasper?branch=master)
-[![Latest Stable Version](https://poser.pugx.org/geekcom/phpjasper/v/stable)](https://packagist.org/packages/geekcom/phpjasper)
-[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%207.2-blue.svg?style=flat-square)](https://php.net/)
-[![Total Downloads](https://poser.pugx.org/geekcom/phpjasper/downloads)](https://packagist.org/packages/geekcom/phpjasper)
-[![License](https://poser.pugx.org/geekcom/phpjasper/license)](https://packagist.org/packages/geekcom/phpjasper)
-[![PHPStan](https://img.shields.io/badge/PHPStan-enabled-brightgreen.svg?style=flat)](https://github.com/phpstan/phpstan)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/geekcom/phpjasper/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/geekcom/phpjasper/?branch=master)
+[![StyleCI](https://styleci.io/repos/46984485/shield?branch=master)](https://styleci.io/repos/46984485)
+[![Latest Stable Version](https://img.shields.io/packagist/v/geekcom/phpjasper.svg?style=flat-square)](https://packagist.org/packages/geekcom/phpjasper)
+[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%205.4-blue.svg?style=flat-square)](https://php.net/)
+[![License](https://poser.pugx.org/geekcom/phpjasper/license)](https://packagist.org/packages/geekcom/phpjasper) 
 
 ### Docs
-
-[![Language-pt_BR](https://img.shields.io/badge/pt__BR-100%25-green.svg?style=flat-square)](https://github.com/PHPJasper/phpjasper/blob/master/docs/pt_BR/LEIA-ME_pt_BR.md)
+[![Language-pt_BR](https://img.shields.io/badge/pt__BR-100%25-green.svg)](https://github.com/PHPJasper/phpjasper/blob/master/docs/pt_BR/LEIA-ME_pt_BR.md)
 
 ### About
-PHPJasper is the best solution to compile and process JasperReports (.jrxml & .jasper files) just using PHP, in short: to generate reports using PHP.
+This package is the solution to compile and process JasperReports (.jrxml & .jasper files) just using PHP.
 
-**Notes:** 
-* PHPJasper Can be used regardless of your PHP Framework
-* For PHP versions less than 7.0 see: [v1.16](https://github.com/PHPJasper/phpjasper/releases/tag/v1.16)
-* [Here](https://github.com/PHPJasper/examples) are several examples of how to use PHPJasper
+**Note:** PHPJasper Can be used regardless of your PHP Framework
+
+**Note for Linux servers?**
+
+Do not forget to grant the correct permissions for the directory 
+**/vendor/geekcom/phpjasper/bin/jasperstarter/bin** and the file binary **jasperstarter**
+
+**Do you need to generate Python reports?**
+
+Meet the **[pyreport](https://github.com/jadsonbr/pyreport)**
 
 ### Why PHPJasper?
 
@@ -47,19 +46,46 @@ It is recommended using [Jaspersoft Studio](http://community.jaspersoft.com/proj
 * Reports
 * Listings
 
+Package to generate reports with [JasperReports 6.3.1](http://community.jaspersoft.com/project/jaspersoft-studio/releases) library through [JasperStarter v3.1.0](https://bitbucket.org/cenote/jasperstarter) command-line tool.
+
 ## Requirements
 
-* PHP 7.2 or above
 * Java JDK 1.8
+* PHP 5.4 or above
 
 ## Optional
 
-* Any `jdbc` drivers to generate reports from a database (MySQL, PostgreSQL, MSSQL...), must be copied to a folder `bin/jasperstarter/jdbc`
-* We ship the [PostgreSQL](https://jdbc.postgresql.org/) (42.2.9) in the `bin/jasperstarter/jdbc` directory.
-* We ship the [MySQL connector](http://dev.mysql.com/downloads/connector/j/) (v5.1.48) in the `bin/jasperstarter/jdbc` directory.
-* [Microsoft JDBC Drivers SQL Server
-](https://docs.microsoft.com/en-us/sql/connect/jdbc/download-microsoft-jdbc-driver-for-sql-server?view=sql-server-ver15).
-* [Jaspersoft Studio](http://community.jaspersoft.com/project/jaspersoft-studio) (to draw your reports).
+* [Mysql JDBC Driver](http://dev.mysql.com/downloads/connector/j/) (If you want to use a database)
+* [PostgreSQL JDBC Driver](https://jdbc.postgresql.org/download.html) (If you want to use a database)
+* [Microsoft JDBC Drivers](https://www.microsoft.com/en-US/download/details.aspx?id=11774) (If you want to use a database)
+* [Jaspersoft Studio](http://community.jaspersoft.com/project/jaspersoft-studio) (to draw and compile your reports)
+
+### Java(JDK)
+
+Check if you already have Java installed:
+
+```
+$ javac -version
+javac version 1.8.0_101
+```
+
+If you get:
+
+    command not found: javac
+
+Then install it with: (Ubuntu/Debian)
+
+    $ sudo apt-get install default-jdk
+
+To install on: (centOS/Fedora)
+
+    # yum install java-1.8.0-openjdk.x86_64
+
+To install on windows visit the link-> [JDK](http://www.oracle.com/technetwork/pt/java/javase/downloads/jdk8-downloads-2133151.html) and look for the most appropriate version for your system.
+
+Now run the `javac -version` again and check if the output is ok.
+
+---------------------------------------------------------------------------------------------------------------------------
 
 ## Installation
 
@@ -72,7 +98,7 @@ Or in your file'composer.json' add:
 ```json
 {
     "require": {
-        "geekcom/phpjasper": "^3.2.0"
+        "geekcom/phpjasper": "1.*"
     }
 }
 ```
@@ -82,24 +108,6 @@ And the just run:
     composer install
 
 and thats it.
-
-----------------------------------------------------------------------------------------------------------------------------
-
-## PHPJasper with Docker
-
-With Docker CE and docker-compose installed just run:
-
-* `docker-compose up -d`
-* `docker exec -it phpjasper composer install`
-
-To execute tests:
-
-* `docker exec -it phpjasper sudo composer test` or
-* `docker exec -it phpjasper sudo composer testdox`
-
-To see coverage manually of tests, execute the file: `tests/log/report/index.html`
-
-_Help us writing new tests, make a fork_ :)
 
 ----------------------------------------------------------------------------------------------------------------------------
 
@@ -120,11 +128,11 @@ First we need to compile our `JRXML` file into a `JASPER` binary file. We just h
 
 require __DIR__ . '/vendor/autoload.php';
 
-use PHPJasper\PHPJasper;
+use JasperPHP\JasperPHP;
 
 $input = __DIR__ . '/vendor/geekcom/phpjasper/examples/hello_world.jrxml';   
 
-$jasper = new PHPJasper;
+$jasper = new JasperPHP;
 $jasper->compile($input)->execute();
 ```
 
@@ -138,7 +146,7 @@ Now lets process the report that we compile before:
 
 require __DIR__ . '/vendor/autoload.php';
 
-use PHPJasper\PHPJasper;
+use JasperPHP\JasperPHP;
 
 $input = __DIR__ . '/vendor/geekcom/phpjasper/examples/hello_world.jasper';  
 $output = __DIR__ . '/vendor/geekcom/phpjasper/examples';    
@@ -146,7 +154,7 @@ $options = [
     'format' => ['pdf', 'rtf'] 
 ];
 
-$jasper = new PHPJasper;
+$jasper = new JasperPHP;
 
 $jasper->process(
     $input,
@@ -167,25 +175,25 @@ Querying the jasper file to examine parameters available in the given jasper rep
 
 require __DIR__ . '/vendor/autoload.php';
 
-use PHPJasper\PHPJasper;
+use JasperPHP\JasperPHP;
 
 $input = __DIR__ . '/vendor/geekcom/phpjasper/examples/hello_world_params.jrxml';
 
-$jasper = new PHPJasper;
+$jasper = new JasperPHP;
 $output = $jasper->listParameters($input)->execute();
 
 foreach($output as $parameter_description)
     print $parameter_description . '<pre>';
 ```
 
-### Using database to generate reports
+### Advanced example - using a database
 
 We can also specify parameters for connecting to database:
 
 ```php
 require __DIR__ . '/vendor/autoload.php';
 
-use PHPJasper\PHPJasper;    
+use JasperPHP\JasperPHP;    
 
 $input = '/your_input_path/your_report.jasper';   
 $output = '/your_output_path';
@@ -194,7 +202,7 @@ $options = [
     'locale' => 'en',
     'params' => [],
     'db_connection' => [
-        'driver' => 'postgres', //mysql, ....
+        'driver' => 'postgres',
         'username' => 'DB_USERNAME',
         'password' => 'DB_PASSWORD',
         'host' => 'DB_HOST',
@@ -203,7 +211,7 @@ $options = [
     ]
 ];
 
-$jasper = new PHPJasper;
+$jasper = new JasperPHP;
 
 $jasper->process(
         $input,
@@ -221,7 +229,7 @@ For a complete list of locales see [Supported Locales](http://www.oracle.com/tec
 ```php
 require __DIR__ . '/vendor/autoload.php';
 
-use PHPJasper\PHPJasper;
+use JasperPHP\JasperPHP;
 
 $input = '/your_input_path/your_report.jasper or .jrxml';   
 $output = '/your_output_path';
@@ -243,7 +251,7 @@ $options = [
     ]
 ];
 
-$jasper = new PHPJasper;
+$jasper = new JasperPHP;
 
 $jasper->process(
         $input,
@@ -257,7 +265,7 @@ $jasper->process(
 ```php
 require __DIR__ . '/vendor/autoload.php';
 
-use PHPJasper\PHPJasper;
+use JasperPHP\JasperPHP;
 
 $input = '/your_input_path/your_report.jasper';   
 $output = '/your_output_path';
@@ -273,7 +281,7 @@ $options = [
     ]
 ];
 
-$jasper = new PHPJasper;
+$jasper = new JasperPHP;
 
 $jasper->process(
     $input,
@@ -287,7 +295,7 @@ $jasper->process(
 ```php
 require __DIR__ . '/vendor/autoload.php';
 
-use PHPJasper\PHPJasper;
+use JasperPHP\JasperPHP;
 
 $input = '/your_input_path/your_report.jasper';   
 $output = '/your_output_path';
@@ -304,7 +312,7 @@ $options = [
     ]
 ];
 
-$jasper = new PHPJasper;
+$jasper = new JasperPHP;
 
 $jasper->process(
     $input,
@@ -312,6 +320,21 @@ $jasper->process(
     $options
 )->execute();
 ```
+
+Please check the repository of examples for more [PHPJasper Examples](https://github.com/PHPJasper/examples)
+
+### MySQL
+
+We ship the [MySQL connector](http://dev.mysql.com/downloads/connector/j/) (v5.1.39) in the `/src/JasperStarter/jdbc/` directory.
+
+### PostgreSQL
+
+We ship the [PostgreSQL](https://jdbc.postgresql.org/) (v9.4-1203) in the `/src/JasperStarter/jdbc/` directory.
+
+### MSSQL
+
+[Microsoft JDBC Drivers 6.0, 4.2, 4.1, and 4.0 for SQL Server
+](https://www.microsoft.com/en-us/download/details.aspx?displaylang=en&id=11774).
 
 ## Performance
 
@@ -337,4 +360,4 @@ MIT
 
 ## [Contribute](https://github.com/PHPJasper/phpjasper/blob/master/CONTRIBUTING.md)
 
-Contribute to the community PHP, make a fork!
+Contribute to the community PHP, make a fork!!
